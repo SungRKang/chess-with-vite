@@ -44,6 +44,7 @@ export default class Referee {
     return false;
     
   }
+  
 
 
   isValidMove(initialPosition: Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState: Piece[]) {
@@ -100,6 +101,13 @@ export default class Referee {
           }
         }
         
+      }
+    } else if(type === PieceType.BISHOP) {
+      //Movement and attack logic for the bishop
+      if(Math.abs(desiredPosition.x - initialPosition.x) == Math.abs(desiredPosition.y - initialPosition.y) && !samePosition(desiredPosition,initialPosition)) {
+        if(this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+          return true;
+        }
       }
     }
   return false;
