@@ -69,6 +69,36 @@ export default class Referee {
     return false;
   }
 
+  isStraightPathOccupied(initialPosition:Position, desiredPosition:Position, boardState:Piece[]){
+    let distance = 0;
+
+    if (desiredPosition.x == initialPosition.x){
+      distance = Math.abs(desiredPosition.y-initialPosition.y);
+    } else if (desiredPosition.y == initialPosition.y) {
+      distance = Math.abs(desiredPosition.x-initialPosition.x);
+    } 
+    
+    for (let i =1; i< distance; i++) {
+      if (desiredPosition.x > initialPosition.x) {
+        if(this.tileIsOccupied({x:initialPosition.x+i, y:initialPosition.y}, boardState)){
+          return true;
+        }
+      } else if(desiredPosition.x < initialPosition.x) {
+        if(this.tileIsOccupied({x:initialPosition.x+i, y:initialPosition.y}, boardState)){
+          return true;
+        }
+      } else if(desiredPosition.y > initialPosition.y) {
+        if(this.tileIsOccupied({x:initialPosition.x, y:initialPosition.y+i}, boardState)){
+          return true;
+        }
+      } else if(desiredPosition.y < initialPosition.y){
+        if(this.tileIsOccupied({x:initialPosition.x, y:initialPosition.y-i}, boardState)){
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
   isValidMove(initialPosition: Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState: Piece[]) {
     if (type === PieceType.PAWN) {
@@ -130,7 +160,15 @@ export default class Referee {
       if(Math.abs(desiredPosition.x - initialPosition.x) == Math.abs(desiredPosition.y - initialPosition.y) && !samePosition(desiredPosition,initialPosition)) {
         if (!(this.isDiagonalPathOccupied(initialPosition, desiredPosition, boardState))){
           if(this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
-          return true;
+            return true;
+          }
+        }
+      }
+    } else if(type === PieceType.ROOK) {
+      if ((desiredPosition.x == initialPosition.x && desiredPosition.y !== initialPosition.y)||(desiredPosition.x !== initialPosition.x && desiredPosition.y == initialPosition.y)) {
+        if (!(this.isStraightPathOccupied(initialPosition, desiredPosition, boardState))) {
+          if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+            return true;
           }
         }
       }
