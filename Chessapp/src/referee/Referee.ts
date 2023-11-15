@@ -45,6 +45,29 @@ export default class Referee {
     
   }
   
+  isDiagonalPathOccupied(initialPosition: Position, desiredPosition:Position, boardState:Piece[]) {
+    const distance = Math.abs(desiredPosition.x-initialPosition.x);
+    for (let i =1; i< distance; i++) {
+      if (desiredPosition.x > initialPosition.x && desiredPosition.y > initialPosition.y) {
+        if(this.tileIsOccupied({x:initialPosition.x+i, y:initialPosition.y+i}, boardState)){
+          return true;
+        }
+      } else if(desiredPosition.x > initialPosition.x && desiredPosition.y < initialPosition.y) {
+        if(this.tileIsOccupied({x:initialPosition.x+i, y:initialPosition.y-i}, boardState)){
+          return true;
+        }
+      } else if(desiredPosition.x < initialPosition.x && desiredPosition.y > initialPosition.y) {
+        if(this.tileIsOccupied({x:initialPosition.x-i, y:initialPosition.y+i}, boardState)){
+          return true;
+        }
+      } else if(desiredPosition.x < initialPosition.x && desiredPosition.y < initialPosition.y){
+        if(this.tileIsOccupied({x:initialPosition.x-i, y:initialPosition.y-i}, boardState)){
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
 
   isValidMove(initialPosition: Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState: Piece[]) {
@@ -105,8 +128,10 @@ export default class Referee {
     } else if(type === PieceType.BISHOP) {
       //Movement and attack logic for the bishop
       if(Math.abs(desiredPosition.x - initialPosition.x) == Math.abs(desiredPosition.y - initialPosition.y) && !samePosition(desiredPosition,initialPosition)) {
-        if(this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+        if (!(this.isDiagonalPathOccupied(initialPosition, desiredPosition, boardState))){
+          if(this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
           return true;
+          }
         }
       }
     }
