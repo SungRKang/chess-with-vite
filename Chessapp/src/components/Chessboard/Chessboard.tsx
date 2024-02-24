@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import Tile from '../Tile/Tile';
 import './Chessboard.css';
 import Referee from '../../referee/Referee';
-import { VERTICAL_AXIS, HORIZONTAL_AXIS, Piece, PieceType, TeamType, initialBoardState, Position, GRID_SIZE, samePosition } from '../../Constants';
+import { VERTICAL_AXIS, HORIZONTAL_AXIS, Piece, TeamType, initialBoardState, Position, GRID_SIZE, samePosition } from '../../Constants';
 
 export default function Chessboard() {
   const [activePiece, setActivePiece] = useState<HTMLElement | null >(null);
@@ -60,68 +60,56 @@ export default function Chessboard() {
 
   function dropPiece(e: React.MouseEvent) {
     const chessboard = chessboardRef.current;
-    if(activePiece && chessboard) {
+    if (activePiece && chessboard) {
       const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE);
       const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 800) / GRID_SIZE));
       
       const currentPiece = pieces.find((p) => samePosition(p.position, grabPosition));
-    
+  
       if (currentPiece) {
-        const validMove = referee.isValidMove(grabPosition, {x,y},currentPiece?.type, currentPiece.team, pieces);
-        
-        const isEnPassantMove = referee.isEnPassantMove(grabPosition,{x, y}, currentPiece.type, currentPiece.team, pieces);
-
-        const pawnDirection = (currentPiece.team === TeamType.WHITE) ? 1 : -1;
-
+        const validMove = referee.isValidMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, pieces);
+        const isEnPassantMove = referee.isEnPassantMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, pieces);
+  
         if (isEnPassantMove) {
+          // Handle en passant move
+          const pawnDirection = (currentPiece.team === TeamType.WHITE) ? 1 : -1;
           const updatedPieces = pieces.reduce((results, piece) => {
-            if(samePosition(piece.position, grabPosition)) {
+            if (samePosition(piece.position, grabPosition)) {
               piece.enPassant = false;
-              piece.position= {x,y};
+              piece.position = {x, y};
               results.push(piece);
-            } else if(!(samePosition(piece.position, {x, y: y-pawnDirection}))) {
-              if (piece.type === PieceType.PAWN) {
-                piece.enPassant = false;
-              }
+            } else if (!samePosition(piece.position, {x, y: y - pawnDirection})) {
               results.push(piece);
             }
-
             return results;
           }, [] as Piece[]);
           setPieces(updatedPieces);
-
-        } else if(validMove) {
-          //updates the piece position
-          //and if piece is attacked, removes it
+        } else if (validMove) {
+          // Handle normal move and capture
           const updatedPieces = pieces.reduce((results, piece) => {
-            if(samePosition(piece.position, grabPosition)){
-              if(Math.abs(grabPosition.y - y) === 2 && piece.type === PieceType.PAWN) {
-                piece.enPassant = true;
-              } else {
-                piece.enPassant = false;
-              }
-              piece.position = {x,y};
+            if (samePosition(piece.position, grabPosition)) {
+              // Move the current piece to the new position
+              piece.position = {x, y};
               results.push(piece);
-            } else if(!(samePosition(piece.position, grabPosition))) {
-              if (piece.type === PieceType.PAWN) {
-                piece.enPassant = false;
-              }
+            } else if (!samePosition(piece.position, {x, y})) {
+              // Keep all other pieces that are not at the destination
               results.push(piece);
             }
             return results;
           }, [] as Piece[]);
-
           setPieces(updatedPieces);
         } else {
-          //resets the piece position
+          // If the move is not valid, reset the piece's position
           activePiece.style.position = 'relative';
-          activePiece.style.removeProperty('top');           
+          activePiece.style.removeProperty('top');
           activePiece.style.removeProperty('left');
         }
       }
+  
       setActivePiece(null);
     }
   }
+  
 
   const board = [];
   // render pieces based on boardstate
