@@ -21,8 +21,14 @@ export default class Referee {
       return false;
     }
   } 
+  switchTurn(currentTurn: TeamType): TeamType {
+    return currentTurn === TeamType.WHITE ? TeamType.BLACK : TeamType.WHITE;
+  }
 
   isEnPassantMove(initialPosition: Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState: Piece[]) {
+    if (type !== PieceType.PAWN) {
+      return false;
+    }
     const pawnDirection = (team === TeamType.WHITE) ? 1 : -1;
     
     if(type === PieceType.PAWN) {
@@ -46,7 +52,11 @@ export default class Referee {
   }
 
 
-  isValidMove(initialPosition: Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState: Piece[]) {
+  isValidMove(initialPosition: Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState: Piece[], currentTurn: TeamType) : boolean {
+    if (team !== currentTurn) {
+      return false;
+    }
+    
     if (type === PieceType.PAWN) {
       const startingRow = (team === TeamType.WHITE) ? 1 : 6;
       const pawnDirection = (team === TeamType.WHITE) ? 1 : -1;

@@ -4,10 +4,12 @@ import './Chessboard.css';
 import Referee from '../../referee/Referee';
 import { VERTICAL_AXIS, HORIZONTAL_AXIS, Piece, TeamType, initialBoardState, Position, GRID_SIZE, samePosition } from '../../Constants';
 
+
 export default function Chessboard() {
   const [activePiece, setActivePiece] = useState<HTMLElement | null >(null);
   const [grabPosition, setGrabPosition] = useState<Position>({x: -1, y:-1 });
   const [pieces, setPieces] = useState<Piece[]>(initialBoardState);
+  const [currentTurn, setCurrentTurn] = useState<TeamType>(TeamType.WHITE);
   const chessboardRef = useRef<HTMLDivElement>(null);
   const referee = new Referee();
 
@@ -60,16 +62,29 @@ export default function Chessboard() {
 
   function dropPiece(e: React.MouseEvent) {
     const chessboard = chessboardRef.current;
+
     if (activePiece && chessboard) {
       const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE);
       const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 800) / GRID_SIZE));
       
       const currentPiece = pieces.find((p) => samePosition(p.position, grabPosition));
-  
+      
       if (currentPiece) {
-        const validMove = referee.isValidMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, pieces);
+        if (currentPiece.team !== currentTurn) {
+          resetPiecePosition();
+          setActivePiece(null);
+          return;
+        }
+
+        const validMove = referee.isValidMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, pieces, currentTurn);
         const isEnPassantMove = referee.isEnPassantMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, pieces);
   
+        if (validMove || isEnPassantMove) {
+          const nextTurn = currentTurn === TeamType.WHITE ? TeamType.BLACK : TeamType.WHITE;
+          setCurrentTurn(nextTurn);
+        } else {
+          resetPiecePosition();
+        }
         if (isEnPassantMove) {
           // Handle en passant move
           const pawnDirection = (currentPiece.team === TeamType.WHITE) ? 1 : -1;
@@ -100,9 +115,7 @@ export default function Chessboard() {
           setPieces(updatedPieces);
         } else {
           // If the move is not valid, reset the piece's position
-          activePiece.style.position = 'relative';
-          activePiece.style.removeProperty('top');
-          activePiece.style.removeProperty('left');
+          resetPiecePosition();
         }
       }
   
@@ -110,6 +123,13 @@ export default function Chessboard() {
     }
   }
   
+  function resetPiecePosition() {
+    if (activePiece) {
+      activePiece.style.position = 'relative';
+      activePiece.style.removeProperty('top');
+      activePiece.style.removeProperty('left');
+    }
+  }
 
   const board = [];
   // render pieces based on boardstate
