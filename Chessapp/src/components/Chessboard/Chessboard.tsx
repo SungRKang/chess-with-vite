@@ -10,6 +10,8 @@ export default function Chessboard() {
   const [grabPosition, setGrabPosition] = useState<Position>({x: -1, y:-1 });
   const [pieces, setPieces] = useState<Piece[]>(initialBoardState);
   const [currentTurn, setCurrentTurn] = useState<TeamType>(TeamType.WHITE);
+  const [lastMove, setLastMove] = useState<{piece: Piece, from: Position, to: Position} | null>(null);
+
   const chessboardRef = useRef<HTMLDivElement>(null);
   const referee = new Referee();
 
@@ -77,9 +79,10 @@ export default function Chessboard() {
         }
 
         const validMove = referee.isValidMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, pieces, currentTurn);
-        const isEnPassantMove = referee.isEnPassantMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, pieces);
+        const isEnPassantMove = referee.isEnPassantMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, pieces, lastMove);
   
         if (validMove || isEnPassantMove) {
+          setLastMove({piece: currentPiece, from: grabPosition, to:{x,y}});
           const nextTurn = currentTurn === TeamType.WHITE ? TeamType.BLACK : TeamType.WHITE;
           setCurrentTurn(nextTurn);
         } else {

@@ -25,31 +25,41 @@ export default class Referee {
     return currentTurn === TeamType.WHITE ? TeamType.BLACK : TeamType.WHITE;
   }
 
-  isEnPassantMove(initialPosition: Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState: Piece[]) {
+  isEnPassantMove(
+    initialPosition: Position,
+    desiredPosition: Position,
+    type: PieceType,
+    team: TeamType,
+    boardState: Piece[],
+    lastMove: { piece: Piece; from: Position; to: Position } | null
+  ): boolean {
+    // En passant is only valid for pawn pieces
     if (type !== PieceType.PAWN) {
       return false;
     }
-    const pawnDirection = (team === TeamType.WHITE) ? 1 : -1;
-    
-    if(type === PieceType.PAWN) {
-      if((desiredPosition.x-initialPosition.x === -1 || desiredPosition.x-initialPosition.x === 1) && desiredPosition.y-initialPosition.y === pawnDirection) {
-        const piece = boardState.find(p => p.position.x === desiredPosition.x && p.position.y === desiredPosition.y - pawnDirection && p.enPassant);
-        if(piece) {
-          return true;
-        }
+  
+    // Direction pawns move, depending on their team
+    const pawnDirection = team === TeamType.WHITE ? 1 : -1;
+  
+    // Check if the move is a diagonal move to an empty tile (typical of en passant)
+    if ((desiredPosition.x - initialPosition.x === -1 || desiredPosition.x - initialPosition.x === 1) &&
+      desiredPosition.y - initialPosition.y === pawnDirection) {
+      
+      // Check if the last move was a two-square pawn advance adjacent to the initialPosition
+      if (lastMove &&
+          lastMove.piece.type === PieceType.PAWN &&
+          Math.abs(lastMove.from.y - lastMove.to.y) === 2 &&
+          lastMove.to.y === initialPosition.y &&  // Must be the same row as the attacking pawn
+          Math.abs(lastMove.to.x - initialPosition.x) === 1) {  // Must be adjacent column
+  
+        // If all conditions are met, it's a valid en passant move
+        return true;
       }
     }
-    //if the attacking piece is a pawn
-
-    //upper left / upper right || bottom left / bottom right
-    //if a piece is under  / above the attacked tile
-    //if the attacked piece has made an en passant move in the previous turn
-
-    //put the piece in correct position
-    //remove en passanted piece
+  
     return false;
-    
   }
+  
 
 
   isValidMove(initialPosition: Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState: Piece[], currentTurn: TeamType) : boolean {
