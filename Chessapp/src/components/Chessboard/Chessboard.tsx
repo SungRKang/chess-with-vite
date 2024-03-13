@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import Tile from '../Tile/Tile';
 import './Chessboard.css';
 import Referee from '../../referee/Referee';
-import { VERTICAL_AXIS, HORIZONTAL_AXIS, Piece, TeamType, initialBoardState, Position, GRID_SIZE, samePosition } from '../../Constants';
+import { VERTICAL_AXIS, HORIZONTAL_AXIS, Piece, TeamType, initialBoardState, Position, GRID_SIZE, samePosition, PieceType } from '../../Constants';
 
 
 export default function Chessboard() {
@@ -64,67 +64,56 @@ export default function Chessboard() {
 
   function dropPiece(e: React.MouseEvent) {
     const chessboard = chessboardRef.current;
-
+  
     if (activePiece && chessboard) {
       const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE);
       const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 800) / GRID_SIZE));
       
       const currentPiece = pieces.find((p) => samePosition(p.position, grabPosition));
       
-      if (currentPiece) {
-        if (currentPiece.team !== currentTurn) {
-          resetPiecePosition();
-          setActivePiece(null);
-          return;
-        }
-
+      if (currentPiece && currentPiece.team === currentTurn) {
+        const tentativePieces = pieces.map(p => {
+          if (samePosition(p.position, grabPosition)) {
+            return {...p, position: {x,y}};
+          }
+          return p;
+        });
+  
+        const myKingPosition = tentativePieces.find(p => p.type === PieceType.KING && p.team === currentTurn)?.position;
+        const movePutsKingInCheck = myKingPosition && referee.isKingInCheck(myKingPosition, currentTurn, tentativePieces);
         const validMove = referee.isValidMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, pieces, currentTurn);
         const isEnPassantMove = referee.isEnPassantMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, lastMove);
-  
-        if (validMove || isEnPassantMove) {
-          setLastMove({piece: currentPiece, from: grabPosition, to:{x,y}});
+        
+        if (!movePutsKingInCheck && (validMove || isEnPassantMove)) {
           const nextTurn = currentTurn === TeamType.WHITE ? TeamType.BLACK : TeamType.WHITE;
+          let updatedPieces;
+  
+          if (isEnPassantMove) {
+            // Handle en passant move
+            const pawnDirection = currentPiece.team === TeamType.WHITE ? 1 : -1;
+            updatedPieces = tentativePieces.filter(p => !samePosition(p.position, {x, y: y - pawnDirection}));
+          } else {
+            // Handle normal move and capture
+            updatedPieces = tentativePieces.filter(p => !samePosition(p.position, {x, y}));
+            updatedPieces.push({ ...currentPiece, position: {x, y} });
+          }
+  
+          setPieces(updatedPieces);
+          setLastMove({piece: currentPiece, from: grabPosition, to:{x,y}});
           setCurrentTurn(nextTurn);
         } else {
+          // If the move is not valid or puts the king in check, reset the piece's position
           resetPiecePosition();
         }
-        if (isEnPassantMove) {
-          // Handle en passant move
-          const pawnDirection = (currentPiece.team === TeamType.WHITE) ? 1 : -1;
-          const updatedPieces = pieces.reduce((results, piece) => {
-            if (samePosition(piece.position, grabPosition)) {
-              piece.enPassant = false;
-              piece.position = {x, y};
-              results.push(piece);
-            } else if (!samePosition(piece.position, {x, y: y - pawnDirection})) {
-              results.push(piece);
-            }
-            return results;
-          }, [] as Piece[]);
-          setPieces(updatedPieces);
-        } else if (validMove) {
-          // Handle normal move and capture
-          const updatedPieces = pieces.reduce((results, piece) => {
-            if (samePosition(piece.position, grabPosition)) {
-              // Move the current piece to the new position
-              piece.position = {x, y};
-              results.push(piece);
-            } else if (!samePosition(piece.position, {x, y})) {
-              // Keep all other pieces that are not at the destination
-              results.push(piece);
-            }
-            return results;
-          }, [] as Piece[]);
-          setPieces(updatedPieces);
-        } else {
-          // If the move is not valid, reset the piece's position
-          resetPiecePosition();
-        }
+      } else {
+        // If it's not the current player's turn, reset piece
+        resetPiecePosition();
       }
   
       setActivePiece(null);
     }
   }
+  
   
   function resetPiecePosition() {
     if (activePiece) {

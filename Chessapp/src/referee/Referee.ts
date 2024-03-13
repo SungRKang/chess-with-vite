@@ -296,4 +296,15 @@ export default class Referee {
 
     return false;
   }
+  isKingInCheck(kingPosition: Position, team: TeamType, pieces: Piece[]): boolean {
+    for (const piece of pieces) {
+      if (piece.team !== team) {
+        if (this.isValidMove(piece.position, kingPosition, piece.type, piece.team, pieces, piece.team)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
 }
