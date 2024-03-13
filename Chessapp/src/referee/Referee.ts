@@ -49,7 +49,6 @@ export default class Referee {
     desiredPosition: Position,
     type: PieceType,
     team: TeamType,
-    boardState: Piece[],
     lastMove: { piece: Piece; from: Position; to: Position } | null
   ): boolean {
     // En passant is only valid for pawn pieces
@@ -97,6 +96,27 @@ export default class Referee {
     }
 
     if (type === PieceType.PAWN) {
+      return this.isValidPawnMove(initialPosition, desiredPosition, team, boardState);
+    } else if (type === PieceType.KNIGHT) {
+      return this.isValidKnightMove(initialPosition, desiredPosition, team, boardState);
+    } else if (type === PieceType.BISHOP) {
+      return this.isValidBishopMove(initialPosition, desiredPosition, team, boardState);
+    } else if (type === PieceType.ROOK) {
+      return this.isValidRookMove(initialPosition, desiredPosition, team, boardState);
+    } else if (type === PieceType.QUEEN) {
+      return this.isValidQueenMove(initialPosition, desiredPosition, team, boardState);
+    } else if (type === PieceType.KING) {
+      return this.isValidKingMove(initialPosition, desiredPosition, team, boardState);
+    }
+    return false;
+  }
+
+  isValidPawnMove(
+    initialPosition: Position,
+    desiredPosition: Position,
+    team: TeamType,
+    boardState: Piece[],
+    ): boolean {
       const startingRow = team === TeamType.WHITE ? 1 : 6;
       const pawnDirection = team === TeamType.WHITE ? 1 : -1;
 
@@ -141,8 +161,15 @@ export default class Referee {
           return true;
         }
       }
-    } else if (type === PieceType.KNIGHT) {
-      //Moving Logic
+      return false;
+  }
+  isValidKnightMove(
+    initialPosition: Position,
+    desiredPosition: Position,
+    team: TeamType,
+    boardState: Piece[],
+  ) : boolean {
+    //Moving Logic
       //8 different moving patterns
 
       for (let i = -1; i < 2; i += 2) {
@@ -180,8 +207,15 @@ export default class Referee {
           }
         }
       }
-    } else if (type === PieceType.BISHOP) {
-      const deltaX = Math.abs(desiredPosition.x - initialPosition.x);
+      return false;
+  }
+  isValidBishopMove(
+    initialPosition: Position,
+    desiredPosition: Position,
+    team: TeamType,
+    boardState: Piece[],
+  ) : boolean {
+    const deltaX = Math.abs(desiredPosition.x - initialPosition.x);
       const deltaY = Math.abs(desiredPosition.y - initialPosition.y);
       if (deltaX === deltaY) {
         // determine the direction of the move
@@ -200,37 +234,66 @@ export default class Referee {
           }
         }
         return !this.tileIsOccupied(desiredPosition, boardState) || this.tileIsOccupiedByOpponent(desiredPosition, boardState, team);
-
       }
-    } else if (type === PieceType.ROOK) {
-      //check if move is horizontal or vertical
-      const isHorizontalMove = initialPosition.y === desiredPosition.y;
-      const isVerticalMove = initialPosition.x === desiredPosition.x;
+      return false;
+  }
+  isValidRookMove(
+    initialPosition: Position,
+    desiredPosition: Position,
+    team: TeamType,
+    boardState: Piece[],
+  ) : boolean {
+    //check if move is horizontal or vertical
+    const isHorizontalMove = initialPosition.y === desiredPosition.y;
+    const isVerticalMove = initialPosition.x === desiredPosition.x;
 
-      if (isHorizontalMove) {
-        //determine direction
-        const direction = desiredPosition.x > initialPosition.x ? 1 : -1;
+    if (isHorizontalMove) {
+      //determine direction
+      const direction = desiredPosition.x > initialPosition.x ? 1 : -1;
 
-        //check each square along the rank for a piece
-        for ( let i = initialPosition.x + direction; i !== desiredPosition.x; i += direction){
-          if (this.tileIsOccupied({ x: i, y: initialPosition.y }, boardState)) {
-            return false; //the path is blocked
-          }
-        }  
-      } else if (isVerticalMove) {
-        const direction = desiredPosition.y > initialPosition.y ? 1 : -1;
-
-        for (let i = initialPosition.y + direction; i !== desiredPosition.y; i += direction){
-          if (this.tileIsOccupied({ x: initialPosition.x, y:i }, boardState)) {
-            return false;
-          }
+      //check each square along the rank for a piece
+      for ( let i = initialPosition.x + direction; i !== desiredPosition.x; i += direction){
+        if (this.tileIsOccupied({ x: i, y: initialPosition.y }, boardState)) {
+          return false; //the path is blocked
         }
-      } else {
-        return false;
-      }
+      }  
+    } else if (isVerticalMove) {
+      const direction = desiredPosition.y > initialPosition.y ? 1 : -1;
 
-      return !this.tileIsOccupied(desiredPosition, boardState) || this.tileIsOccupiedByOpponent(desiredPosition, boardState, team);
-    } 
+      for (let i = initialPosition.y + direction; i !== desiredPosition.y; i += direction){
+        if (this.tileIsOccupied({ x: initialPosition.x, y:i }, boardState)) {
+          return false;
+        }
+      }
+    } else {
+      return false;
+    }
+
+    return !this.tileIsOccupied(desiredPosition, boardState) || this.tileIsOccupiedByOpponent(desiredPosition, boardState, team); 
+  }
+  isValidQueenMove(
+    initialPosition: Position,
+    desiredPosition: Position,
+    team: TeamType,
+    boardState: Piece[],
+  ) : boolean {
+    return (this.isValidBishopMove(initialPosition, desiredPosition, team, boardState) || this.isValidRookMove(initialPosition, desiredPosition, team, boardState));
+  }
+  isValidKingMove(
+    initialPosition: Position,
+    desiredPosition: Position,
+    team: TeamType,
+    boardState: Piece[],
+  ) : boolean {
+    const deltaX = Math.abs(desiredPosition.x - initialPosition.x);
+    const deltaY = Math.abs(desiredPosition.y - initialPosition.y);
+
+    //check if the move is within one move
+    if (deltaX <= 1 && deltaY <= 1) {
+      // Ensure the target square is not occupied by a piece of the same team
+      return this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team);
+    }
+
     return false;
   }
 }
