@@ -79,7 +79,7 @@ export default function Chessboard() {
         }
 
         const validMove = referee.isValidMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, pieces, currentTurn);
-        const isEnPassantMove = referee.isEnPassantMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, pieces, lastMove);
+        const isEnPassantMove = referee.isEnPassantMove(grabPosition, {x, y}, currentPiece.type, currentPiece.team, lastMove);
   
         if (validMove || isEnPassantMove) {
           setLastMove({piece: currentPiece, from: grabPosition, to:{x,y}});

@@ -49,7 +49,6 @@ export default class Referee {
     desiredPosition: Position,
     type: PieceType,
     team: TeamType,
-    boardState: Piece[],
     lastMove: { piece: Piece; from: Position; to: Position } | null
   ): boolean {
     // En passant is only valid for pawn pieces
