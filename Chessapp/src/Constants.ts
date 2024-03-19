@@ -33,6 +33,7 @@ export interface Piece {
   type: PieceType;
   team: TeamType;
   enPassant?: boolean;
+  hasMoved?: boolean;
 }
 
 
@@ -44,7 +45,8 @@ export const initialBoardState: Piece[] = [
       y: 1,
     },
     type: PieceType.PAWN,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/pawn_w.svg",
@@ -53,7 +55,8 @@ export const initialBoardState: Piece[] = [
       y: 1,
     },
     type: PieceType.PAWN,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/pawn_w.svg",
@@ -62,7 +65,8 @@ export const initialBoardState: Piece[] = [
       y: 1,
     },
     type: PieceType.PAWN,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/pawn_w.svg",
@@ -71,7 +75,8 @@ export const initialBoardState: Piece[] = [
       y: 1,
     },
     type: PieceType.PAWN,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/pawn_w.svg",
@@ -80,7 +85,8 @@ export const initialBoardState: Piece[] = [
       y: 1,
     },
     type: PieceType.PAWN,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/pawn_w.svg",
@@ -89,7 +95,8 @@ export const initialBoardState: Piece[] = [
       y: 1,
     },
     type: PieceType.PAWN,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/pawn_w.svg",
@@ -98,7 +105,8 @@ export const initialBoardState: Piece[] = [
       y: 1,
     },
     type: PieceType.PAWN,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/pawn_w.svg",
@@ -107,7 +115,8 @@ export const initialBoardState: Piece[] = [
       y: 1,
     },
     type: PieceType.PAWN,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/rook_w.svg",
@@ -116,7 +125,8 @@ export const initialBoardState: Piece[] = [
       y: 0,
     },
     type: PieceType.ROOK,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/rook_w.svg",
@@ -125,7 +135,8 @@ export const initialBoardState: Piece[] = [
       y: 0,
     },
     type: PieceType.ROOK,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/knight_w.svg",
@@ -134,7 +145,8 @@ export const initialBoardState: Piece[] = [
       y: 0,
     },
     type: PieceType.KNIGHT,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/knight_w.svg",
@@ -143,7 +155,8 @@ export const initialBoardState: Piece[] = [
       y: 0,
     },
     type: PieceType.KNIGHT,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/bishop_w.svg",
@@ -152,7 +165,8 @@ export const initialBoardState: Piece[] = [
       y: 0,
     },
     type: PieceType.BISHOP,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/bishop_w.svg",
@@ -161,7 +175,8 @@ export const initialBoardState: Piece[] = [
       y: 0,
     },
     type: PieceType.BISHOP,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/queen_w.svg",
@@ -170,7 +185,8 @@ export const initialBoardState: Piece[] = [
       y: 0,
     },
     type: PieceType.QUEEN,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
   {
     image : "/images/king_w.svg",
@@ -179,7 +195,8 @@ export const initialBoardState: Piece[] = [
       y: 0,
     },
     type: PieceType.KING,
-    team: TeamType.WHITE
+    team: TeamType.WHITE,
+    hasMoved: false
   },
 
 
@@ -190,7 +207,8 @@ export const initialBoardState: Piece[] = [
       y: 6,
     },
     type: PieceType.PAWN,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/pawn_b.svg",
@@ -199,7 +217,8 @@ export const initialBoardState: Piece[] = [
       y: 6,
     },
     type: PieceType.PAWN,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/pawn_b.svg",
@@ -208,7 +227,8 @@ export const initialBoardState: Piece[] = [
       y: 6,
     },
     type: PieceType.PAWN,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/pawn_b.svg",
@@ -217,7 +237,8 @@ export const initialBoardState: Piece[] = [
       y: 6,
     },
     type: PieceType.PAWN,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/pawn_b.svg",
@@ -226,7 +247,8 @@ export const initialBoardState: Piece[] = [
       y: 6,
     },
     type: PieceType.PAWN,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/pawn_b.svg",
@@ -235,7 +257,8 @@ export const initialBoardState: Piece[] = [
       y: 6,
     },
     type: PieceType.PAWN,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/pawn_b.svg",
@@ -244,7 +267,8 @@ export const initialBoardState: Piece[] = [
       y: 6,
     },
     type: PieceType.PAWN,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/pawn_b.svg",
@@ -253,7 +277,8 @@ export const initialBoardState: Piece[] = [
       y: 6,
     },
     type: PieceType.PAWN,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/rook_b.svg",
@@ -262,7 +287,8 @@ export const initialBoardState: Piece[] = [
       y: 7,
     },
     type: PieceType.ROOK,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/rook_b.svg",
@@ -271,7 +297,8 @@ export const initialBoardState: Piece[] = [
       y: 7,
     },
     type: PieceType.ROOK,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/knight_b.svg",
@@ -280,7 +307,8 @@ export const initialBoardState: Piece[] = [
       y: 7,
     },
     type: PieceType.KNIGHT,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/knight_b.svg",
@@ -289,7 +317,8 @@ export const initialBoardState: Piece[] = [
       y: 7,
     },
     type: PieceType.KNIGHT,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/bishop_b.svg",
@@ -298,7 +327,8 @@ export const initialBoardState: Piece[] = [
       y: 7,
     },
     type: PieceType.BISHOP,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/bishop_b.svg",
@@ -307,7 +337,8 @@ export const initialBoardState: Piece[] = [
       y: 7,
     },
     type: PieceType.BISHOP,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/queen_b.svg",
@@ -316,7 +347,8 @@ export const initialBoardState: Piece[] = [
       y: 7,
     },
     type: PieceType.QUEEN,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
   {
     image : "/images/king_b.svg",
@@ -325,7 +357,8 @@ export const initialBoardState: Piece[] = [
       y: 7,
     },
     type: PieceType.KING,
-    team: TeamType.BLACK
+    team: TeamType.BLACK,
+    hasMoved: false
   },
 
 ];
