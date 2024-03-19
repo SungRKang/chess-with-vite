@@ -38,7 +38,7 @@ export interface Piece {
 
 export const initialBoardState: Piece[] = [
   {
-    image : "/images/pawn_w.png",
+    image : "/images/pawn_w.svg",
     position: {
       x: 0,
       y: 1,
@@ -47,7 +47,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/pawn_w.png",
+    image : "/images/pawn_w.svg",
     position: {
       x: 1,
       y: 1,
@@ -56,7 +56,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/pawn_w.png",
+    image : "/images/pawn_w.svg",
     position: { 
       x: 2,
       y: 1,
@@ -65,7 +65,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/pawn_w.png",
+    image : "/images/pawn_w.svg",
     position: {
       x: 3,
       y: 1,
@@ -74,7 +74,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/pawn_w.png",
+    image : "/images/pawn_w.svg",
     position: {
       x: 4,
       y: 1,
@@ -83,7 +83,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/pawn_w.png",
+    image : "/images/pawn_w.svg",
     position: {
       x: 5,
       y: 1,
@@ -92,7 +92,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/pawn_w.png",
+    image : "/images/pawn_w.svg",
     position: {
       x: 6,
       y: 1,
@@ -101,7 +101,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/pawn_w.png",
+    image : "/images/pawn_w.svg",
     position: {
       x: 7,
       y: 1,
@@ -110,7 +110,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/rook_w.png",
+    image : "/images/rook_w.svg",
     position: {
       x: 0,
       y: 0,
@@ -119,7 +119,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/rook_w.png",
+    image : "/images/rook_w.svg",
     position: {
       x: 7,
       y: 0,
@@ -128,7 +128,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/knight_w.png",
+    image : "/images/knight_w.svg",
     position: {
       x: 1,
       y: 0,
@@ -137,7 +137,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/knight_w.png",
+    image : "/images/knight_w.svg",
     position: {
       x: 6,
       y: 0,
@@ -146,7 +146,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/bishop_w.png",
+    image : "/images/bishop_w.svg",
     position: {
       x: 2,
       y: 0,
@@ -155,7 +155,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/bishop_w.png",
+    image : "/images/bishop_w.svg",
     position: {
       x: 5,
       y: 0,
@@ -164,7 +164,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/queen_w.png",
+    image : "/images/queen_w.svg",
     position: {
       x: 3,
       y: 0,
@@ -173,7 +173,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.WHITE
   },
   {
-    image : "/images/king_w.png",
+    image : "/images/king_w.svg",
     position: {
       x: 4,
       y: 0,
@@ -184,7 +184,7 @@ export const initialBoardState: Piece[] = [
 
 
   {
-    image : "/images/pawn_b.png",
+    image : "/images/pawn_b.svg",
     position: {
       x: 0,
       y: 6,
@@ -193,7 +193,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/pawn_b.png",
+    image : "/images/pawn_b.svg",
     position: {
       x: 1,
       y: 6,
@@ -202,7 +202,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/pawn_b.png",
+    image : "/images/pawn_b.svg",
     position: {
       x: 2,
       y: 6,
@@ -211,7 +211,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/pawn_b.png",
+    image : "/images/pawn_b.svg",
     position: {
       x: 3,
       y: 6,
@@ -220,7 +220,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/pawn_b.png",
+    image : "/images/pawn_b.svg",
     position: {
       x: 4,
       y: 6,
@@ -229,7 +229,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/pawn_b.png",
+    image : "/images/pawn_b.svg",
     position: {
       x: 5,
       y: 6,
@@ -238,7 +238,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/pawn_b.png",
+    image : "/images/pawn_b.svg",
     position: {
       x: 6,
       y: 6,
@@ -247,7 +247,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/pawn_b.png",
+    image : "/images/pawn_b.svg",
     position: {
       x: 7,
       y: 6,
@@ -256,7 +256,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/rook_b.png",
+    image : "/images/rook_b.svg",
     position: {
       x: 0,
       y: 7,
@@ -265,7 +265,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/rook_b.png",
+    image : "/images/rook_b.svg",
     position: {
       x: 7,
       y: 7,
@@ -274,7 +274,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/knight_b.png",
+    image : "/images/knight_b.svg",
     position: {
       x: 1,
       y: 7,
@@ -283,7 +283,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/knight_b.png",
+    image : "/images/knight_b.svg",
     position: {
       x: 6,
       y: 7,
@@ -292,7 +292,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/bishop_b.png",
+    image : "/images/bishop_b.svg",
     position: {
       x: 2,
       y: 7,
@@ -301,7 +301,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/bishop_b.png",
+    image : "/images/bishop_b.svg",
     position: {
       x: 5,
       y: 7,
@@ -310,7 +310,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/queen_b.png",
+    image : "/images/queen_b.svg",
     position: {
       x: 3,
       y: 7,
@@ -319,7 +319,7 @@ export const initialBoardState: Piece[] = [
     team: TeamType.BLACK
   },
   {
-    image : "/images/king_b.png",
+    image : "/images/king_b.svg",
     position: {
       x: 4,
       y: 7,
